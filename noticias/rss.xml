@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+>
+
+<channel>
+    <title>My Site Name</title>
+    <link>http://www.mydomain.com/</link>
+    <atom:link href="http://www.mydomain.com/rss/rss2.xml" rel="self" type="application/rss+xml" />
+    <description>My RSS Feed Subtitle</description>
+    <language>en</language>
+	
+        <item>
+	    <title>A Post Title</title>
+	    <guid isPermaLink="true">http://www.mydomain.com/file-location/</guid>
+	    <link>http://www.mydomain.com/page-location/</link>
+	    <pubDate>Wed, 30 Apr 2009 23:00:00 +1100</pubDate>
+	    <description><![CDATA[ <p>This is a brief summary of the post, so tempting that no one will be able to resist clicking through.</p> ]]></description> 
+        </item>
+	
+</channel>
+</rss>
