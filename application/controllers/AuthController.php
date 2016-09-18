@@ -12,7 +12,7 @@ class AuthController extends Zend_Controller_Action {
 	}
 
 	function loginAction() {
-		die("okok");
+		
 		$this->view->message = '';
 		if ($this->_request->isPost()) {
 			// pega as informacoes do usuario
@@ -20,6 +20,7 @@ class AuthController extends Zend_Controller_Action {
 			$f = new Zend_Filter_StripTags();
 			$username = $f->filter($this->_request->getPost('login'));
 			$password = $f->filter($this->_request->getPost('senha'));
+			echo "okokppp";
 			die("okok");
 			if (empty($username)) {
 				$this->view->message = 'Por favor informe o usuario.';
