@@ -1,1 +1,0 @@
-Publicado através do Google Cloud Platform. Show!
