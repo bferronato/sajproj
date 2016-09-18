@@ -56,12 +56,24 @@ Zend_Layout::startMvc('./application/views/layouts');
 
 
 // load configuration
-$config = new Zend_Config_Ini('./application/configs/config.ini', 'producao');
-$registry = Zend_Registry::getInstance();
-$registry->set('config', $config);
+//$config = new Zend_Config_Ini('./application/configs/config.ini', 'producao');
+//$registry = Zend_Registry::getInstance();
+//$registry->set('config', $config);
 
 // setup database
-$db = Zend_Db::factory($config->db->adapter, $config->db->config->toArray());
+//$db = Zend_Db::factory($config->db->adapter, $config->db->config->toArray());
+
+$db_adapter = getenv('DB_ADAPTER');
+$params = array(
+        'host'     => getenv('DB_HOST'),
+        'username' => getenv('DB_USERNAME'),
+        'password' => getenv('DB_PASSWORD'),
+        'dbname'   => getenv('DB_DBNAME')//,
+        //'charset'  => getenv('DB_CHARSET')
+);
+
+$db = Zend_Db::factory($db_adapter, $params);
+
 Zend_Db_Table::setDefaultAdapter($db);
 Zend_Registry::set('db', $db);
 
