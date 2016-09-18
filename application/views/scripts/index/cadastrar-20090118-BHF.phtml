@@ -1,0 +1,99 @@
+<p>&nbsp;</p>
+
+<form id="cadprocesso" name="cadprocesso" action="/index/<?= $this->action; ?>" method="post">
+<table border="0" width="50%" align="center">
+	<input type="hidden" name="id" value="<?= $this->id; ?>" >
+	<tr>
+		<td align="center" colspan="2" class="cinzab_11"><?= $this->subtitulo; ?></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2" class="message"><?= $this->message; ?></td>
+	</tr>
+	<tr>
+		<td class="cinza_11">N&uacute;mero do processo</td>
+		<td>
+			<input type="text" id="nmprocesso" name="nmprocesso" 
+					value="<?= $this->numero_processo; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Data Distribui&ccedil;&atilde;o</td>
+		<td>
+			<input type="text" id="dtdistribuicao" name="dtdistribuicao" 
+					value="<?= empty($this->data_distribuicao) ? "" : date("d/m/Y", $this->data_distribuicao); ?>" 
+					class="input" style="width: 160px"><a class="cinza_11"> (dd/mm/aaaa)</a>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Data Encerramento</td>
+		<td>
+			<input type="text" id="dtencerramento" name="dtencerramento" 
+					value="<?= empty($this->data_encerramento) ? "" : date("d/m/Y", $this->data_encerramento); ?>" 
+					class="input" style="width: 160px"><a class="cinza_11"> (dd/mm/aaaa)</a>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Cliente</td>
+		<td>
+			<select id="idcliente" name="idcliente" class="select" style="width: 253px">
+			<?php foreach($this->clientes as $cliente) : ?>
+				<?php if ($cliente->id == $this->cliente) : ?>
+					<option selected value="<?= $cliente->id; ?>"><?= $cliente->nome; ?></option>
+				<?php else : ?>
+					<option value="<?= $cliente->id; ?>"><?= $cliente->nome; ?></option>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Natureza</td>
+		<td>
+			<select id="idnatureza" name="idnatureza" class="select" style="width: 253px">
+			<?php foreach($this->naturezas as $natureza) : ?>
+				<?php if ($natureza->id == $this->natureza) : ?>
+					<option selected value="<?= $natureza->id; ?>"><?= $natureza->nome; ?></option>
+				<?php else : ?>
+					<option value="<?= $natureza->id; ?>"><?= $natureza->nome; ?></option>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Comarca</td>
+		<td>
+			<select id="idcomarca" name="idcomarca" class="select" style="width: 253px">
+			<?php foreach($this->comarcas as $comarca) : ?>
+				<?php if ($comarca->id == $this->comarca) : ?>
+					<option selected value="<?= $comarca->id; ?>"><?= $comarca->nome; ?></option>
+				<?php else : ?>
+					<option value="<?= $comarca->id; ?>"><?= $comarca->nome; ?></option>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Vara</td>
+		<td>
+			<select id="idvara" name="idvara" class="select" style="width: 253px">
+			<?php foreach($this->varas as $vara) : ?>
+				<?php if ($vara->id == $this->vara) : ?>
+					<option selected value="<?= $vara->id; ?>"><?= $vara->nome; ?></option>
+				<?php else : ?>
+					<option value="<?= $vara->id; ?>"><?= $vara->nome; ?></option>
+				<?php endif; ?>				
+			<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="submit" id="cadastrar" name="cadastrar" value="<?= $this->textButton; ?>" class="button">
+		</td>
+	</tr>
+	
+</table>
+</form>

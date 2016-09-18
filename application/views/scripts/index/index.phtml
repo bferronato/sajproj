@@ -1,0 +1,269 @@
+
+<form id="processos" name="processos" action="/sajproj/index/index" method="post">
+
+
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+
+<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+
+
+<!--begin custom header content for this example-->
+<style type="text/css">
+    #paginated {
+        text-align: center;
+    }
+    #paginated table {
+        margin-left:auto; margin-right:auto;
+    }
+    #paginated, #paginated .yui-dt-loading {
+        text-align: center; background-color: transparent;
+    }
+</style>
+
+<!--end custom header content for this example-->
+
+</head>
+
+<!-- Caixa de busca -->
+<table border="0" width="100%">
+	<tr>
+		<td colspan="8" nowrap="nowrap">
+			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+
+<!-- Mostra o numero de registros encontrados -->
+<table border="0" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmprocessos > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmprocessos ?></strong> processos cadastrados</td></tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhuma processo foi encontrado!</td></tr>
+	<?php endif; ?>
+</table>
+
+<?php 
+	$json = 
+		"{'recordsReturned':" . $this->nmprocessos . ",
+		'totalRecords':" . $this->nmprocessos . ",
+		'startIndex':0,'sort':null,'dir':'asc','pageSize':504,'records':[";
+	
+	$i = 0; 
+	foreach($this->processos as $processo) {
+		$json.=
+			"{'id':'" . $processo->id . "',
+			'processo':'" . formataNumeroProcesso($processo->numero_processo) . "',
+			'dtdistribuicao':'" . ( empty($processo->data_distribuicao) ? "" : date ("d/m/Y", strtotime ($processo->data_distribuicao) ) ) . "',
+			'dtencerramento':'" . ( empty($processo->data_encerramento) ? "" : date ("d/m/Y", strtotime ($processo->data_encerramento) ) ) . "',
+			'autor':'" . addslashes($processo->findParentCliente()->nome) . "',
+			'natureza':'" . addslashes($processo->findParentNatureza()->nome) . "',
+			'vara':'" . addslashes($processo->findParentVara()->nome) . "',
+			'acao':
+			'<a href=\'http://esaj.tjsc.jus.br/cpopg/search.do?dadosConsulta.localPesquisa.cdLocal=-1&cbPesquisa=NUMPROC&dadosConsulta.tipoNuProcesso=SAJ&numeroDigitoAnoUnificado=&foroNumeroUnificado=&dadosConsulta.valorConsultaNuUnificado=&dadosConsulta.valorConsulta=" . $processo->numero_processo . "\' target=\'_blank\'><img src=\'/sajproj/images/visualizar.gif\' border=\'0\'></a>&nbsp;<a href=\"/sajproj/index/parte/idprocesso/" . $processo->id . "\"><img src=\"/sajproj/images/partes.png\" border=\"0\"></a>&nbsp;<a href=\"/sajproj/index/editar/id/" . $processo->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/sajproj/index/excluir/id/\' + " . $processo->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>'
+			}";
+
+		$i++;
+		
+		/*
+		'<form id=\"mod1\" name=\"mod1\" method=\"post\" action=\"http://tjsc23.tj.sc.gov.br:8080/cpo/pg/search.do\"><input type=\"hidden\" name=\"baseIndice\" value=\"INDDS\"><input type=\"hidden\" name=\"cbPesquisa\" value=\"NUMPROC\"><input type=\"hidden\" name=\"cdForo\" value=\"23\"><input type=\"hidden\" name=\"dePesquisa\" value=\"" . $processo->numero_processo . "\"><input type=\"hidden\" name=\"modeloCNJ\" value=\"\"><input value=\"Pesquisar\" id=\"Pesquisar\" type=\"submit\"></form>
+		 */
+		// '<img src=\"/images/partes.png\" class=\"teste3\" title=\"" . $processo->numero_processo . "\" border=\"0\">'
+		// '&nbsp;<a href=\"/index/parte/idprocesso/" . $processo->id . "\"><img src=\"/images/partes.png\" border=\"0\"></a>&nbsp;<a href=\"/index/editar/id/" . $processo->id . "\"><img src=\"/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/index/excluir/id/\' + " . $processo->id . ")\"><img src=\"/images/excluir.gif\" border=\"0\"></a>'
+		
+		/*
+		<a href=\"http://tjsc23.tj.sc.gov.br:8080/cpo/search.do?cbForo=23&cbPesquisa=NUMPROC&dePesquisa=" . $processo->numero_processo . "&cdForo=23\" target=\"_blank\"><img src=\"/images/visualizar.gif\" border=\"0\"></a>&nbsp;<a href=\"/index/parte/idprocesso/" . $processo->id . "\"><img src=\"/images/partes.png\" border=\"0\"></a>&nbsp;<a href=\"/index/editar/id/" . $processo->id . "\"><img src=\"/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/index/excluir/id/\' + " . $processo->id . ")\"><img src=\"/images/excluir.gif\" border=\"0\"></a>'
+		<a href="<?php echo "http://tjsc23.tj.sc.gov.br:8080/cpo/search.do?cbForo=23&cbPesquisa=NUMPROC&dePesquisa=" . $processo->numero_processo . "&cdForo=23"; ?>" target="_blank">
+				<img src="/images/visualizar.gif" border="0"></a>		
+			<a href="<?php echo "/index/parte/idprocesso/" . $processo->id?>">
+				<img src="/images/partes.png" border="0"></a>
+			<a href="<?php echo "/index/editar/id/" . $processo->id?>">
+				<img src="/images/editar.gif" border="0"></a>
+			<a href="#" onclick="javascript:confirmExclusao('/index/excluir/id/' + <?=$processo->id?>)">
+				<img src="/images/excluir.gif" border="0"></a>*/
+		
+		
+		// Insere virgula entre os registros
+		$json.= ( $i < $this->nmprocessos ) ? "," : "";		
+	}
+	$json.= "]}";
+
+?>
+
+
+<body class=" yui-skin-sam">
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="paginated"></div>
+
+<script type="text/javascript">
+
+$(function(){
+	$(".teste3").click(function(){
+
+
+
+
+
+		
+
+		/*var datastr = {
+			'baseIndice' : 'INDDS',
+			'cbPesquisa' : 'NUMPROC',
+			'cdForo' : '23',
+			'dePesquisa' : $(this).attr('title'),
+			'modeloCNJ' : ''
+		}*/
+
+		
+		//$.post("http://tjsc23.tj.sc.gov.br:8080/cpo/pg/search.do", datastr, "html");
+		
+		/*$.ajax({
+			type: "POST",
+			url: "http://tjsc23.tj.sc.gov.br:8080/cpo/pg/search.do",
+			data: datastr,
+			cache: false,
+			success: function(html){
+				alert('fdsfs');
+			}
+		});*/
+
+		
+		
+		
+		/*var valid = []; 
+		var isr = ' e necessario.<br />';
+		var nome = $("#nome").val();
+		var email = $("#email").val();
+		var assunto = $("#assunto").val();
+		var mensagem = $("#mensagem").val();
+		if (nome.length < 1) {
+			valid.push('Nome');
+			valid.push(isr);
+		}
+		if (!email.match(/^([a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,4}$)/i)) {
+			valid.push('Um Email valido');
+			valid.push(isr);
+		}
+		if (assunto.length < 1) {
+			valid.push('Assunto');
+			valid.push(isr);
+		}
+		if (mensagem.length < 1) {
+			valid.push('Mensagem');
+			valid.push(isr);
+		}
+		if (valid.length > 0) {
+			$("#response").fadeIn("slow");
+
+			$("#response").addClass("errorMessage");
+			$("#response").html("<strong>Verifique os seguintes erros:</strong><br /> " + valid.join(''));
+		}
+		else {
+			var datastr = {
+				'nome' : nome,
+				'email' : email,
+				'assunto' : assunto,
+				'mensagem' : mensagem
+			}
+			
+			$("#response").addClass("sucessMessage");
+			$("#response").html("Enviando mensagem .... ");
+			$("#response").fadeIn("slow");
+			
+			setTimeout(function() { 
+				$.ajax({	
+					type: "POST",
+					url: "/sajproj//sajproj//sajproj/evento/wp-content/contato/enviar.php",
+					data: datastr,
+					cache: false,
+					success: function(html){
+						$("#response").fadeIn("slow");
+						$("#response").html(html);
+						setTimeout('$("#response").fadeOut("slow")',2000);
+					}
+				});
+		        
+		    }, 2000);
+		}
+		return false;*/
+	});
+});
+
+</script>
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function() {
+    YAHOO.example.ClientPagination = function() {
+		
+    	var myColumnDefs = [
+			{key:"processo", label:"Processo", sortable:true},
+			{key:"dtdistribuicao", label:"Distribuição", sortable:true, formatter:"date"},
+			{key:"dtencerramento", label:"Encerramento", sortable:true, formatter:"date"},
+			{key:"autor", label:"Autor", sortable:true},
+			{key:"natureza", label:"Natureza", sortable:true},
+			{key:"vara", label:"Vara", sortable:true},
+			{key:"acao", label:"Ação"}
+    	];
+
+    	var dados = <?= $json; ?>;
+
+        //var myDataSource = new YAHOO.util.DataSource("assets/php/json_proxy.php?");
+        var myDataSource = new YAHOO.util.DataSource(dados);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        myDataSource.responseSchema = {
+            resultsList: "records",
+            fields: ["processo", "dtdistribuicao", "dtencerramento", "autor", "natureza", "vara","acao"]
+        };
+
+        var oConfigs = {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 15
+                }),
+                sortedBy : {key:"autor", dir:"desc"},
+                initialRequest: "results=504"
+        };
+        var myDataTable = new YAHOO.widget.DataTable("paginated", myColumnDefs,
+                myDataSource, oConfigs);
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();
+});
+</script>
+
+</form>
+<?php 
+
+function formataNumeroProcesso($nmProcesso) {
+	// 023.95.052005-1
+	// 239.50.520051-1
+	// 023..9.5.0520-0 
+	//substr('abcdef', 0, 4);  // abcd
+	//echo $nmProcesso . "=";
+	$nmProcesso = str_pad($nmProcesso, 12, "0", STR_PAD_LEFT);
+	
+	// 023.95.052005-1
+	$parte1 = substr($nmProcesso, 0, 3);
+	$parte2 = substr($nmProcesso, 3, 2);
+	$parte3 = substr($nmProcesso, 5, 6);
+	$parte4 = substr($nmProcesso, 11, 1);
+	return $parte1 . "." . $parte2 . "." . $parte3 . "-" . $parte4;
+}
+
+?>

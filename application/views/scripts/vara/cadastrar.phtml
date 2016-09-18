@@ -1,0 +1,26 @@
+<p>&nbsp;</p>
+
+<form id="cadprocesso" name="cadprocesso" action="/sajproj/vara/<?= $this->action; ?>" method="post">
+<table border="0" width="50%" align="center">
+	<input type="hidden" name="id" value="<?= $this->id; ?>" >
+	<tr>
+		<td align="center" colspan="2" class="cinzab_11"><?= $this->subtitulo; ?></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2" class="message"><?= $this->message; ?></td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Nome</td>
+		<td>
+			<input type="text" id="nome" name="nome" value="<?= $this->nome; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="submit" id="cadastrar" name="cadastrar" value="<?= $this->textButton; ?>" class="button">
+		</td>
+	</tr>
+	
+</table>
+</form>

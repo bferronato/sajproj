@@ -1,0 +1,138 @@
+<p>&nbsp;</p>
+
+<form id="cadprocesso" name="cadprocesso" action="/sajproj/parte/<?= $this->action; ?>" method="post">
+<table border="0" width="50%" align="center">
+	<input type="hidden" name="id" value="<?= $this->id; ?>" >
+	<tr>
+		<td align="center" colspan="2" class="cinzab_11"><?= $this->subtitulo; ?></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2" class="message"><?= $this->message; ?></td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Processo</td>
+		<td>
+			<select id="idprocesso" name="idprocesso" class="select" style="width: 253px">
+			<?php foreach($this->processos as $processo) : ?>
+				<?php if ($processo->id == $this->idProcesso) : ?>
+					<option selected value="<?=$processo->id; ?>">
+						<?= formataNumeroProcesso($processo->numero_processo); ?>
+					</option>
+				<?php else : ?>
+					<option value="<?= $processo->id; ?>">
+						<?= formataNumeroProcesso($processo->numero_processo); ?>
+					</option>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Nome do Cliente</td>
+		<td>
+			<select id="idcliente" name="idcliente" class="select" style="width: 253px">
+				<?php foreach($this->clientes as $cliente) : ?>
+					<?php if ($cliente->id == $this->idCliente) : ?>
+						<option selected value="<?= $cliente->id; ?>">
+							<?= $cliente->nome; ?>
+						</option>
+					<?php else : ?>
+						<option value="<?= $cliente->id; ?>">
+							<?= $cliente->nome; ?>
+						</option>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Nome da Parte</td>
+		<td>
+			<input type="text" id="nome" name="nome" value="<?= $this->nome; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Matr&iacute;cula</td>
+		<td>
+			<input type="text" id="matricula" name="matricula" value="<?= $this->matricula; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">CPF</td>
+		<td>
+			<input type="text" id="cpf" name="cpf" value="<?= $this->cpf; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">RG</td>
+		<td>
+			<input type="text" id="rg" name="rg" value="<?= $this->rg; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+
+	<tr>
+		<td class="cinza_11" style="width: 253px">Banco</td>
+		<td>
+			<select id="banco" name="banco" class="select" style="width: 253px">
+				<option <?= ($this->banco == "Banco do Brasil") ? "selected" : ""; ?> value="Banco do Brasil">Banco do Brasil</option>
+				<option <?= ($this->banco == "Banco Real") ? "selected" : ""; ?> value="Banco Real">Banco Real</option>
+				<option <?= ($this->banco == "Banco Votorantim") ? "selected" : ""; ?> value="Banco Votorantim">Banco Votorantim</option>
+				<option <?= ($this->banco == "Banrisul") ? "selected" : ""; ?> value="Banrisul">Banrisul</option>
+				<option <?= ($this->banco == "BBM") ? "selected" : ""; ?> value="BBM">BBM</option>
+				<option <?= ($this->banco == "BESC") ? "selected" : ""; ?> value="BESC">BESC</option>
+				<option <?= ($this->banco == "Bradesco") ? "selected" : ""; ?> value="Bradesco">Bradesco</option>
+				<option <?= ($this->banco == "Caixa Economica") ? "selected" : ""; ?> value="Caixa Economica">Caixa Economica</option>
+				<option <?= ($this->banco == "Citibank") ? "selected" : ""; ?> value="Citibank">Citibank</option>
+				<option <?= ($this->banco == "HSBC") ? "selected" : ""; ?> value="HSBC">HSBC</option>
+				<option <?= ($this->banco == "Itau") ? "selected" : ""; ?> value="Itau">Itau</option>
+				<option <?= ($this->banco == "Nossa Caixa") ? "selected" : ""; ?> value="Nossa Caixa">Nossa Caixa</option>
+				<option <?= ($this->banco == "Pactual") ? "selected" : ""; ?> value="Pactual">Pactual</option>
+				<option <?= ($this->banco == "Safra") ? "selected" : ""; ?> value="Safra">Safra</option>
+				<option <?= ($this->banco == "Santander") ? "selected" : ""; ?> value="Santander">Santander</option>
+				<option <?= ($this->banco == "Unibanco") ? "selected" : ""; ?> value="Unibanco">Unibanco</option>
+			</select>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="cinza_11" style="width: 253px">Ag&ecirc;ncia</td>
+		<td>
+			<input type="text" id="agencia" name="agencia" value="<?= $this->agencia; ?>" class="input" maxlength="15" style="width: 250px">
+		</td>
+	</tr>
+
+	<tr>
+		<td class="cinza_11" style="width: 253px">Conta</td>
+		<td>
+			<input type="text" id="conta" name="conta" value="<?= $this->conta; ?>" class="input" maxlength="15" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="submit" id="cadastrar" name="cadastrar" value="<?= $this->textButton; ?>" class="button">
+		</td>
+	</tr>
+
+</table>
+</form>
+
+<?php
+
+function formataNumeroProcesso($nmProcesso) {
+	// 023.95.052005-1
+	// 239.50.520051-1
+	// 023..9.5.0520-0
+	//substr('abcdef', 0, 4);  // abcd
+	//echo $nmProcesso . "=";
+	$nmProcesso = str_pad($nmProcesso, 12, "0", STR_PAD_LEFT);
+
+	// 023.95.052005-1
+	$parte1 = substr($nmProcesso, 0, 3);
+	$parte2 = substr($nmProcesso, 3, 2);
+	$parte3 = substr($nmProcesso, 5, 6);
+	$parte4 = substr($nmProcesso, 11, 1);
+	return $parte1 . "." . $parte2 . "." . $parte3 . "-" . $parte4;
+}
+
+?>

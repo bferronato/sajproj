@@ -1,0 +1,133 @@
+<p>&nbsp;</p>
+
+<script type="text/javascript">		
+	$(document).ready(function(){
+		$("#cep").mask("99999-999");
+		$("#cpf").mask("999.999.999-99");
+		$("#telefone").mask("(99)9999-9999");
+		$("#celular").mask("(99)9999-9999");
+		$("#cnpj").mask("99.999.999/9999-99");
+		$("#telefoneComercial").mask("(99)9999-9999");		
+	});
+</script>
+
+<form id="cadcontato" name="cadcontato" action="/sajproj/clientes/<?= $this->action; ?>" method="post">
+<table border="0" width="50%" align="center">
+	<input type="hidden" id="id" name="id" value="<?= $this->id; ?>" >
+	<tr>
+		<td align="center" colspan="2" class="cinzab_11"><?= $this->subtitulo; ?></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2" class="message"><?= $this->message; ?></td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Nome</td>
+		<td>
+			<input type="text" id="nome" name="nome" value="<?= $this->nome; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Inventariante</td>
+		<td>
+			<input type="text" id="inventariante" name="inventariante" value="<?= $this->inventariante; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">CPF</td>
+		<td>
+			<input type="text" id="cpf" name="cpf" value="<?= $this->cpf; ?>" class="input" style="width: 250px" />
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Endereco</td>
+		<td>
+			<input type="text" id="endereco" name="endereco" value="<?= $this->endereco; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">CEP</td>
+		<td>
+			<input type="text" id="cep" name="cep" value="<?= $this->cep; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Cidade</td>
+		<td>
+			<input type="text" id="cidade" name="cidade" value="<?= $this->cidade; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Estado</td>
+		<td>
+			<input type="text" id="estado" name="estado" value="<?= $this->estado; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Telefone</td>
+		<td>
+			<input type="text" id="telefone" name="telefone" value="<?= $this->telefone; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Celular</td>
+		<td>
+			<input type="text" id="celular" name="celular" value="<?= $this->celular; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Email</td>
+		<td>
+			<input type="text" id="email" name="email" value="<?= $this->email; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Empresa</td>
+		<td>
+			<input type="text" id="empresa" name="empresa" value="<?= $this->empresa; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">CNPJ</td>
+		<td>
+			<input type="text" id="cnpj" name="cnpj" value="<?= $this->cnpj; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Telefone comercial</td>
+		<td>
+			<input type="text" id="telefoneComercial" name="telefoneComercial" value="<?= $this->telefoneComercial; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Email comercial</td>
+		<td>
+			<input type="text" id="emailComercial" name="emailComercial" value="<?= $this->emailComercial; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Banco</td>
+		<td>
+			<input type="text" id="banco" name="banco" value="<?= $this->banco; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Ag&ecirc;ncia</td>
+		<td>
+			<input type="text" id="agencia" name="agencia" value="<?= $this->agencia; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Conta</td>
+		<td>
+			<input type="text" id="conta" name="conta" value="<?= $this->conta; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="submit" id="cadastrar" name="cadastrar" value="<?= $this->textButton; ?>" class="button">
+		</td>
+	</tr>
+	
+</table>
+</form>

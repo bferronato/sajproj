@@ -1,0 +1,171 @@
+<br />
+<form id="processos" name="processos" action="/sajproj/natureza/visualizar" method="post">
+
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+
+<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+
+
+<!--begin custom header content for this example-->
+<style type="text/css">
+    #paginated {
+        text-align: center;
+    }
+    #paginated table {
+        margin-left:auto; margin-right:auto;
+    }
+    #paginated, #paginated .yui-dt-loading {
+        text-align: center; background-color: transparent;
+    }
+</style>
+
+<!--end custom header content for this example-->
+
+</head>
+
+<!-- Caixa de busca -->
+<table border="0" width="100%">
+	<tr>
+		<td colspan="8" nowrap="nowrap">
+			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+
+<!-- Mostra o numero de registros encontrados -->
+<table border="0" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmnaturezas > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmnaturezas ?></strong> naturezas cadastradas</td></tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhuma natureza foi encontrada!</td></tr>
+	<?php endif; ?>
+</table>
+
+<?php 
+	$json = 
+		"{'recordsReturned':" . $this->nmnaturezas . ",
+		'totalRecords':" . $this->nmnaturezas . ",
+		'startIndex':0,'sort':null,'dir':'asc','pageSize':504,'records':[";
+	
+	$i = 0;		
+	foreach($this->naturezas as $natureza) {
+		$json.=
+			"{'id':'" . $natureza->id . "',
+			'nome':'" . $natureza->nome . "',
+			'acao':
+			'<a href=\"/sajproj/natureza/editar/id/" . $natureza->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/sajproj/natureza/excluir/id/\' + " . $natureza->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>'
+			}";
+		$i++;
+		// Insere virgula entre os registros
+		$json.= ( $i < $this->nmnaturezas ) ? "," : "";		
+	}
+	$json.= "]}";
+
+?>
+
+
+<body class=" yui-skin-sam">
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="paginated"></div>
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function() {
+    YAHOO.example.ClientPagination = function() {
+
+    	var myColumnDefs = [
+			{key:"nome", label:"Nome"},
+			{key:"acao", label:"Ação"}
+    	];
+
+    	var dados = <?= $json; ?>;
+
+        //var myDataSource = new YAHOO.util.DataSource("assets/php/json_proxy.php?");
+        var myDataSource = new YAHOO.util.DataSource(dados);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        myDataSource.responseSchema = {
+            resultsList: "records",
+            fields: ["nome","acao"]
+        };
+
+        var oConfigs = {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 15
+                }),
+                initialRequest: "results=504"
+        };
+        var myDataTable = new YAHOO.widget.DataTable("paginated", myColumnDefs,
+                myDataSource, oConfigs);
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();
+});
+</script>
+
+
+<?php /*
+<?php //echo time("22/12/2008");  
+		//echo date("d/m/Y", "1239884007");
+		//echo "|" . (string)$this->nmregistros; ?>
+<table border="0" width="100%">
+	<tr>
+		<td colspan="8" nowrap="nowrap">
+			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+<table border="0" class="lista_naturezas" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmnaturezas > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmnaturezas ?></strong> naturezas cadastradas</td></tr>
+	<tr>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Nome</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">&nbsp;</td>
+	</tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhuma natureza foi encontrada!</td></tr>	
+	<?php endif; ?>
+	<?php $i = 0?>
+	<?php foreach($this->naturezas as $natureza) : ?>
+	<?php $bgcolor = ($i % 2 == 0) ? "#eeeeee" : "" ?>
+	<tr background="#ded"> 
+		<td nowrap="nowrap" class="cinza_11" bgcolor="<?=$bgcolor?>">
+			<?php echo $natureza->nome; ?>			
+		</td>
+		
+		<td nowrap="nowrap" bgcolor="<?=$bgcolor?>" width="50px">		
+			<a href="<?= "/natureza/editar/id/" . $natureza->id?>">
+				<img src="/images/editar.gif" border="0"></a>
+			<a href="#" onclick="javascript:confirmExclusao('/natureza/excluir/id/' + <?=$natureza->id?>)">
+				<img src="/images/excluir.gif" border="0"></a>
+		</td>
+	</tr>
+	<?php $i++; ?>
+	<?php endforeach; ?>
+
+</table>
+
+*/
+?>
+</form>

@@ -1,0 +1,100 @@
+<p>&nbsp;</p>
+
+<form id="cadprocesso" name="cadprocesso" action="/parte/<?= $this->action; ?>" method="post">
+<table border="0" width="50%" align="center">
+	<input type="hidden" name="id" value="<?= $this->id; ?>" >
+	<tr>
+		<td align="center" colspan="2" class="cinzab_11"><?= $this->subtitulo; ?></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2" class="message"><?= $this->message; ?></td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Processo</td>
+		<td>
+			<select id="idprocesso" name="idprocesso" class="select" style="width: 253px">
+			<?php foreach($this->processos as $processo) : ?>
+				<?php if ($processo->id == $this->idProcesso) : ?>
+					<option selected value="<?= $processo->id; ?>">
+						<?= formataNumeroProcesso($processo->numero_processo); ?>
+					</option>
+				<?php else : ?>
+					<option value="<?= $processo->id; ?>">
+						<?= formataNumeroProcesso($processo->numero_processo); ?>
+					</option>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Nome do Cliente</td>
+		<td>
+			<select id="idcliente" name="idcliente" class="select" style="width: 253px">
+				<?php foreach($this->clientes as $cliente) : ?>
+					<?php if ($cliente->id == $this->idCliente) : ?>
+						<option selected value="<?= $cliente->id; ?>">
+							<?= $cliente->nome; ?>
+						</option>
+					<?php else : ?>
+						<option value="<?= $cliente->id; ?>">
+							<?= $cliente->nome; ?>
+						</option>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Nome da Parte</td>
+		<td>
+			<input type="text" id="nome" name="nome" value="<?= $this->nome; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Matr&iacute;cula</td>
+		<td>
+			<input type="text" id="matricula" name="matricula" value="<?= $this->matricula; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">CPF</td>
+		<td>
+			<input type="text" id="cpf" name="cpf" value="<?= $this->cpf; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">RG</td>
+		<td>
+			<input type="text" id="rg" name="rg" value="<?= $this->rg; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="submit" id="cadastrar" name="cadastrar" value="<?= $this->textButton; ?>" class="button">
+		</td>
+	</tr>
+	
+</table>
+</form>
+
+<?php 
+
+function formataNumeroProcesso($nmProcesso) {
+	// 023.95.052005-1
+	// 239.50.520051-1
+	// 023..9.5.0520-0 
+	//substr('abcdef', 0, 4);  // abcd
+	//echo $nmProcesso . "=";
+	$nmProcesso = str_pad($nmProcesso, 12, "0", STR_PAD_LEFT);
+	
+	// 023.95.052005-1
+	$parte1 = substr($nmProcesso, 0, 3);
+	$parte2 = substr($nmProcesso, 3, 2);
+	$parte3 = substr($nmProcesso, 5, 6);
+	$parte4 = substr($nmProcesso, 11, 1);
+	return $parte1 . "." . $parte2 . "." . $parte3 . "-" . $parte4;
+}
+
+?>

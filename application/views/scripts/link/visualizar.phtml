@@ -1,0 +1,42 @@
+<br />
+<br />
+<br />
+<table border="0" class="tableLink" align="center">
+
+	<?php
+		
+	$links = array (
+				"Associações e Órgãos de Classe" => "http://www.tj.sc.gov.br/servicos/links/associa.htm", 
+				"Manual de instruções de Cartas Rogatórias (Ministério da Justiça)" => "http://www.mj.gov.br/drci/",
+				"Ministério Público" => "http://www.mp.sc.gov.br/",
+				"Órgãos Governamentais" => "http://www.tj.sc.gov.br/servicos/links/oficiais.htm",
+				"Tribunais" => "http://www.tj.sc.gov.br/servicos/links/tribunais.htm",
+				"Detran" => "http://consultas.ciasc.gov.br/detran/multas/",
+				"Brasil Telecom" => "http://www.listasdaqui.com.br/",
+				"GVT" => "http://www.gvt.com.br/portal/auxilioalista/index.jsp",
+				"Pesquisa de CEP" => "http://www.correios.com.br/servicos/cep/cep_default.cfm",
+				"Previsão do tempo" => "http://ciram.epagri.rct-sc.br/",
+				"TV Justiça" => "http://www.tvjustica.gov.br/"
+			);
+	?>
+	
+	<tr>
+		<td class="brancob_11" rowspan="<?=count($links) + 1;?>" 
+		bgcolor="gray" align="center" width="50px">Links &Uacute;teis</td>
+	</tr>
+	
+	
+	<?php $i = 0?>
+	<?php foreach ( $links as $nome=>$endereco ) :	?>
+	<?php $bgcolor = ($i % 2 == 0) ? "#eeeeee" : ""?>
+	<tr backgrond="#ded">
+		<td nowrap="nowrap" bgcolor="<?=$bgcolor?>">
+			<a href="<?=$endereco;?>" target="_blank"><?=$nome;?></a>
+			
+		</td>
+		
+	</tr>
+	<?php $i ++; ?>
+	<?php endforeach; ?>
+
+</table>

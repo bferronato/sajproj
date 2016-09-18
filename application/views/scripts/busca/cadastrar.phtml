@@ -1,0 +1,82 @@
+<p>&nbsp;</p>
+
+<form id="cadprocesso" name="cadprocesso" action="/sajproj/cliente/<?= $this->action; ?>" method="post">
+<table border="0" width="50%" align="center">
+	<input type="hidden" id="id" name="id" value="<?= $this->id; ?>" >
+	<tr>
+		<td align="center" colspan="2" class="cinzab_11"><?= $this->subtitulo; ?></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2" class="message"><?= $this->message; ?></td>
+	</tr>
+	<tr>
+		<td class="cinza_11" style="width: 253px">Nome</td>
+		<td>
+			<input type="text" id="nome" name="nome" value="<?= $this->nome; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">CPF</td>
+		<td>
+			<input type="text" id="cpf" name="cpf" value="<?= $this->cpf; ?>" class="input" style="width: 250px"
+				onblur="javascript:validaCPF(this);" maxlength="11" />
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">CNPJ</td>
+		<td>
+			<input type="text" id="cnpj" name="cnpj" value="<?= $this->cnpj; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Endereco</td>
+		<td>
+			<input type="text" id="endereco" name="endereco" value="<?= $this->endereco; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Cidade</td>
+		<td>
+			<input type="text" id="cidade" name="cidade" value="<?= $this->cidade; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<!-- CREATE TABLE tb_cliente (
+	  id INTEGER(10) UNSIGNED NOT NULL,
+	  nome VARCHAR(100) NOT NULL,
+	  cpf VARCHAR(11) NOT NULL,
+	  cnpj VARCHAR(14) NOT NULL,
+	  endereco VARCHAR(100) NOT NULL,
+	  cidade VARCHAR(100) NOT NULL,
+	  estado VARCHAR(2) NOT NULL,
+	  telefone VARCHAR(10) NOT NULL,
+	  email VARCHAR(50) NOT NULL,
+	  descricao VARCHAR(500) NOT NULL,
+	  PRIMARY KEY(id)
+	); -->
+	<tr>
+		<td class="cinza_11">Estado</td>
+		<td>
+			<input type="text" id="estado" name="estado" value="<?= $this->estado; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Telefone</td>
+		<td>
+			<input type="text" id="telefone" name="telefone" value="<?= $this->telefone; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td class="cinza_11">Email</td>
+		<td>
+			<input type="text" id="email" name="email" value="<?= $this->email; ?>" class="input" style="width: 250px">
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="submit" id="cadastrar" name="cadastrar" value="<?= $this->textButton; ?>" class="button">
+		</td>
+	</tr>
+	
+</table>
+</form>

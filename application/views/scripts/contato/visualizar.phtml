@@ -1,0 +1,169 @@
+<br />
+<form id="contatos" name="contatos" action="/sajproj/contato/visualizar" method="post">
+
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+
+<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+
+
+<!--begin custom header content for this example-->
+<style type="text/css">
+    #paginated {
+        text-align: center;
+    }
+    #paginated table {
+        margin-left:auto; margin-right:auto;
+    }
+    #paginated, #paginated .yui-dt-loading {
+        text-align: center; background-color: transparent;
+    }
+</style>
+
+<!--end custom header content for this example-->
+
+</head>
+
+<!-- Caixa de busca -->
+<table border="0" width="100%">
+	<tr>
+		<td colspan="8" nowrap="nowrap">
+			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+
+<!-- Mostra o numero de registros encontrados -->
+<table border="0" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmcontatos > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmcontatos ?></strong> contatos cadastrados</td></tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhum contato foi encontrado!</td></tr>
+	<?php endif; ?>
+</table>
+
+<?php 
+	$json = 
+		"{'recordsReturned':" . $this->nmcontatos . ",
+		'totalRecords':" . $this->nmcontatos . ",
+		'startIndex':0,'sort':null,'dir':'asc','pageSize':504,'records':[";
+	
+	$i = 0;
+	foreach($this->contatos as $contato) {
+		$json.=
+			"{'id':'" . $contato->id . "',
+			'nome':'" . addslashes($contato->nome) . "',
+			'inventariante':'" . addslashes($contato->inventariante) . "',
+			'cpf':'" . $contato->cpf . "',
+			'endereco':'" . addslashes($contato->endereco) . "',
+			'cep':'" . $contato->cep . "',
+			'cidade':'" . addslashes($contato->cidade) . "',
+			'estado':'" . $contato->estado . "',
+			'telefone':'" . $contato->telefone . "',
+			'celular':'" . $contato->celular . "',
+			'email':'" . $contato->email . "',
+			'empresa':'" . addslashes($contato->empresa) . "',
+			'cnpj':'" . $contato->cnpj . "',
+			'telefone_comercial':'" . $contato->telefone_comercial . "',
+			'email_comercial':'" . addslashes($contato->email_comercial) . "',
+			'acao':
+			'<a href=\"#\" onclick=\"javascript:alert(\'Banco: " . $contato->banco . " \\\\nAgencia: " . $contato->agencia . "\\\\nConta: " . $contato->conta . "      \')\"><img src=\"/sajproj/images/coins_add.png\" border=\"0\"></a><a href=\"/sajproj/contato/editar/id/" . $contato->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/sajproj/contato/excluir/id/\' + " . $contato->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>'
+			}";
+		$i++;
+		// Insere virgula entre os registros
+		$json.= ( $i < $this->nmcontatos ) ? "," : "";		
+	}
+	$json.= "]}";
+
+?>
+
+
+<body class=" yui-skin-sam">
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="paginated"></div>
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function() {
+    YAHOO.example.ClientPagination = function() {
+    	var myColumnDefs = [
+			{key:"nome", label:"Nome", sortable:true},
+			{key:"inventariante", label:"Inventariante", sortable:true},
+			{key:"cpf", label:"CPF", sortable:true},
+			{key:"endereco", label:"Endereco", sortable:true},
+			{key:"cep", label:"CEP", sortable:true},
+			{key:"cidade", label:"Cidade", sortable:true},
+			{key:"estado", label:"Estado", sortable:true},
+			{key:"telefone", label:"Telefone", sortable:true},
+			{key:"celular", label:"Celular", sortable:true},
+			{key:"email", label:"Email", sortable:true},
+			//{key:"empresa", label:"Empresa", sortable:true},
+			//{key:"cnpj", label:"CNPJ", sortable:true},
+			{key:"telefone_comercial", label:"Telefone Com.", sortable:true},
+			{key:"email_comercial", label:"Email Com.", sortable:true},
+			//{key:"banco", label:"Banco", sortable:true},
+			//{key:"agencia", label:"Ag&ecirc;ncia", sortable:true},
+			//{key:"conta", label:"conta", sortable:true},
+			{key:"acao", label:"Ação", width:"50px" }
+    	];
+
+    	var dados = <?= $json; ?>;
+
+        //var myDataSource = new YAHOO.util.DataSource("assets/php/json_proxy.php?");
+        var myDataSource = new YAHOO.util.DataSource(dados);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        myDataSource.responseSchema = {
+            resultsList: "records",
+            //fields: ["nome","cpf","endereco","cidade","estado","telefone","email","empresa","cnpj","telefone_comercial","email_comercial","banco","agencia","conta","acao"]
+            fields: ["nome","inventariante","cpf","endereco","cep","cidade","estado","telefone","celular","email","telefone_comercial","email_comercial","acao"]
+        };
+
+        var oConfigs = {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 15
+                }),
+                sortedBy : {key:"nome", dir:"desc"},
+                initialRequest: "results=504"
+        };
+        var myDataTable = new YAHOO.widget.DataTable("paginated", myColumnDefs,
+                myDataSource, oConfigs);
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();
+});
+</script>
+
+</form>
+
+<?php 
+
+function formataNumeroProcesso($nmProcesso) {
+	// 023.95.052005-1
+	// 239.50.520051-1
+	// 023..9.5.0520-0 
+	//substr('abcdef', 0, 4);  // abcd
+	
+	$parte1 = substr($nmProcesso, 1, 3);
+	$parte2 = substr($nmProcesso, 4, 2);
+	$parte3 = substr($nmProcesso, 6, 6);
+	$parte4 = substr($nmProcesso, 11, 1);
+	return $parte1 . "." . $parte2 . "." . $parte3 . "-" . $parte4;
+}
+
+?>

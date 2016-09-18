@@ -1,0 +1,91 @@
+
+<form id="processos" name="processos" action="/index/index" method="post">
+<?php //echo time("22/12/2008");  
+		//echo date("d/m/Y", "1239884007");
+		//echo "|" . (string)$this->nmregistros; ?>
+<table border="0" width="100%">
+	<tr>
+		<td colspan="8" nowrap="nowrap">
+			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+<table border="0" class="lista_processos"><?php //echo "<pre>"; print_r($this->teste); ?>
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmprocessos > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmprocessos ?></strong> processos cadastrados</td></tr>
+	<tr>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Processo</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Distribui&ccedil;&atilde;o</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Encerramento</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Autor</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Natureza</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Comarca</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Vara</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">&nbsp;</td>
+	</tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhum processo foi encontrado!</td></tr>
+	<?php endif; ?>
+	<?php $i = 0?>
+	<?php foreach($this->processos as $processo) : ?>
+	<?php $bgcolor = ($i % 2 == 0) ? "#eeeeee" : "" ?>
+	<tr background="#ded">
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>			
+			<?php echo formataNumeroProcesso($processo->numero_processo); ?>			
+		</td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>		
+			<?php //echo empty($processo->data_distribuicao) ? "": date("d/m/Y", $processo->data_distribuicao); ?>
+			<?php echo empty($processo->data_distribuicao) ? "" : date ("d/m/Y", strtotime ($processo->data_distribuicao) ); ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php //echo empty($processo->data_encerramento) ? "": date("d/m/Y", $processo->data_encerramento); ?></td>
+			<?php echo empty($processo->data_encerramento) ? "": $processo->data_encerramento; ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $processo->findParentCliente()->nome; ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $processo->findParentNatureza()->nome; ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $processo->findParentComarca()->nome; ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $processo->findParentVara()->nome; ?></td>
+  
+		<td nowrap="nowrap" bgcolor=<?=$bgcolor?>>
+			<a href="<?php echo "http://tjsc23.tj.sc.gov.br:8080/cpo/search.do?cbForo=23&cbPesquisa=NUMPROC&dePesquisa=" . $processo->numero_processo . "&cdForo=23"; ?>" target="_blank">
+				<img src="/images/visualizar.gif" border="0"></a>		
+			<a href="<?php echo "/index/parte/idprocesso/" . $processo->id?>">
+				<img src="/images/partes.png" border="0"></a>
+			<a href="<?php echo "/index/editar/id/" . $processo->id?>">
+				<img src="/images/editar.gif" border="0"></a>
+			<a href="#" onclick="javascript:confirmExclusao('/index/excluir/id/' + <?=$processo->id?>)">
+				<img src="/images/excluir.gif" border="0"></a>
+		</td>
+	</tr>
+	<?php $i++; ?>
+	<?php endforeach; ?>
+
+</table>
+</form>
+
+<?php 
+
+function formataNumeroProcesso($nmProcesso) {
+	// 023.95.052005-1
+	// 239.50.520051-1
+	// 023..9.5.0520-0 
+	//substr('abcdef', 0, 4);  // abcd
+	//echo $nmProcesso . "=";
+	$nmProcesso = str_pad($nmProcesso, 12, "0", STR_PAD_LEFT);
+	
+	// 023.95.052005-1
+	$parte1 = substr($nmProcesso, 0, 3);
+	$parte2 = substr($nmProcesso, 3, 2);
+	$parte3 = substr($nmProcesso, 5, 6);
+	$parte4 = substr($nmProcesso, 11, 1);
+	return $parte1 . "." . $parte2 . "." . $parte3 . "-" . $parte4;
+}
+
+?>

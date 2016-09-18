@@ -1,0 +1,226 @@
+<br />
+<form id="processos" name="processos" action="/sajproj/parte/visualizar" method="post">
+
+
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+
+<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+
+
+<!--begin custom header content for this example-->
+<style type="text/css">
+    #paginated {
+        text-align: center;
+    }
+    #paginated table {
+        margin-left:auto; margin-right:auto;
+    }
+    #paginated, #paginated .yui-dt-loading {
+        text-align: center; background-color: transparent;
+    }
+</style>
+
+<!--end custom header content for this example-->
+
+</head>
+
+<!-- Caixa de busca -->
+<table border="0" width="100%">
+	<tr>
+		<td colspan="8" nowrap="nowrap">
+			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+
+<!-- Mostra o numero de registros encontrados -->
+<table border="0" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmpartes > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmpartes ?></strong> partes cadastradas</td></tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhuma parte foi encontrada!</td></tr>
+	<?php endif; ?>
+</table>
+
+<?php 
+	$json = 
+		"{'recordsReturned':" . $this->nmpartes . ",
+		'totalRecords':" . $this->nmpartes . ",
+		'startIndex':0,'sort':null,'dir':'asc','pageSize':504,'records':[";
+	
+	$i = 0;		
+	foreach($this->partes as $parte) {
+		$json.=
+			"{'id':'" . $parte->id . "',
+			'processo':'" . formataNumeroProcesso($parte->findParentProcesso()->numero_processo) . "',
+			'parte':'" . addslashes($parte->nome_parte) . "',
+			'cliente':'" . addslashes($parte->findParentCliente()->nome) . "',
+			'matricula':'" . $parte->numero_matricula . "',
+			'cpf':'" . $parte->cpf . "',
+			'rg':'" . $parte->rg . "',
+			'acao':
+			'<a href=\"http://tjsc23.tj.sc.gov.br:8080/cpo/search.do?cbForo=23&cbPesquisa=NUMPROC&dePesquisa=" . $parte->findParentProcesso()->numero_processo . "&cdForo=23\" target=\"_blank\"><img src=\"/sajproj/images/visualizar.gif\" border=\"0\"></a>&nbsp;<a href=\"/sajproj/parte/editar/id/" . $parte->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/sajproj/parte/excluir/id/\' + " . $parte->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>'
+			}";
+		$i++;
+		// Insere virgula entre os registros
+		$json.= ( $i < $this->nmpartes ) ? "," : "";		
+	}
+	$json.= "]}";
+
+?>
+
+
+<body class=" yui-skin-sam">
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="paginated"></div>
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function() {
+    YAHOO.example.ClientPagination = function() {
+
+    	var myColumnDefs = [
+			{key:"processo", label:"Processo", sortable:true},
+			{key:"parte", label:"Parte", sortable:true},
+			{key:"cliente", label:"Cliente", sortable:true},
+			{key:"matricula", label:"Matrícula", sortable:true},
+			{key:"cpf", label:"CPF", sortable:true},
+			{key:"rg", label:"RG", sortable:true},
+			{key:"acao", label:"Ação"}
+    	];
+
+    	var dados = <?= $json; ?>;
+
+        //var myDataSource = new YAHOO.util.DataSource("assets/php/json_proxy.php?");
+        var myDataSource = new YAHOO.util.DataSource(dados);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        myDataSource.responseSchema = {
+            resultsList: "records",
+            fields: ["processo", "parte", "cliente", "matricula", "cpf", "rg","acao"]
+        };
+
+        var oConfigs = {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 15
+                }),
+                sortedBy : {key:"parte", dir:"desc"},
+                initialRequest: "results=504"
+        };
+        var myDataTable = new YAHOO.widget.DataTable("paginated", myColumnDefs,
+                myDataSource, oConfigs);
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();
+});
+</script>
+
+
+
+
+
+
+<?php /*
+<?php //echo time("22/12/2008");  
+		//echo date("d/m/Y", "1239884007");
+		//echo "|" . (string)$this->nmregistros; ?>
+<table border="0" width="100%">
+	<tr>
+		<td colspan="8" nowrap="nowrap">
+			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+<table border="0" class="lista_naturezas" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmpartes > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmpartes ?></strong> partes cadastradas</td></tr>
+	<tr>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Processo</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Parte</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Cliente</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Matr&iacute;cula</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">CPF</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">RG</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">&nbsp;</td>
+	</tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhuma parte foi encontrada!</td></tr>
+	<?php endif; ?>
+	<?php $i = 0?>
+	<?php foreach($this->partes as $parte) : ?>
+	<?php $bgcolor = ($i % 2 == 0) ? "#eeeeee" : "" ?>
+	<tr background="#ded">
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php echo formataNumeroProcesso($parte->findParentProcesso()->numero_processo); ?>			
+		</td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php echo $parte->nome_parte; ?>			
+		</td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php echo $parte->findParentCliente()->nome; ?>			
+		</td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php echo $parte->numero_matricula; ?>
+		</td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php echo $parte->cpf; ?>
+		</td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php echo $parte->rg; ?>
+		</td>
+		
+		<td  width="50px" nowrap="nowrap" bgcolor=<?=$bgcolor?>>		
+			<a href="<?= "/parte/editar/id/" . $parte->id?>">
+				<img src="/images/editar.gif" border="0"></a>
+			<a href="#" onclick="javascript:confirmExclusao('/parte/excluir/id/' + <?=$parte->id?>)">
+				<img src="/images/excluir.gif" border="0"></a>
+				
+		</td>
+	</tr>
+	<?php $i++; ?>
+	<?php endforeach; ?>
+
+</table>
+</form>
+*/
+?>
+
+<?php 
+
+function formataNumeroProcesso($nmProcesso) {
+	// 023.95.052005-1
+	// 239.50.520051-1
+	// 023..9.5.0520-0 
+	//substr('abcdef', 0, 4);  // abcd
+	//echo $nmProcesso . "=";
+	$nmProcesso = str_pad($nmProcesso, 12, "0", STR_PAD_LEFT);
+	
+	// 023.95.052005-1
+	$parte1 = substr($nmProcesso, 0, 3);
+	$parte2 = substr($nmProcesso, 3, 2);
+	$parte3 = substr($nmProcesso, 5, 6);
+	$parte4 = substr($nmProcesso, 11, 1);
+	return $parte1 . "." . $parte2 . "." . $parte3 . "-" . $parte4;
+}
+?>

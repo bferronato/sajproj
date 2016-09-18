@@ -1,0 +1,510 @@
+<br />
+<form id="processos" name="processos" action="/sajproj/busca/buscar" method="post">
+
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+
+<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+<script type="text/javascript">
+
+	function redirectOutput(myForm) {
+		var w = window.open('about:blank','Popup_Window');
+		myForm.target = 'Popup_Window';
+		return true;
+	}
+
+</script>
+
+<!--begin custom header content for this example-->
+<style type="text/css">
+    #paginated {
+        text-align: center;
+    }
+    #paginated table {
+        margin-left:auto; margin-right:auto;
+    }
+    #paginated, #paginated .yui-dt-loading {
+        text-align: center; background-color: transparent;
+    }
+</style>
+
+<!--end custom header content for this example-->
+
+</head>
+
+<table border="0" width="100%">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->datahora; ?></td>
+	</tr>
+	<tr>
+		<td colspan="7" nowrap="nowrap" align="right">
+		<label class="cinza_11">Pesquisar por:
+		<?php $selected = isset( $_POST['pesquisaPor'] ) ? $_POST['pesquisaPor'] : ""; ?>
+			<select id="pesquisaPor" name="pesquisaPor" class="select" style="width: 250px">
+				<option <?= ($selected == "numeroProcesso") ? "selected" : "" ?> value="numeroProcesso">N&uacute;mero do Processo</option>
+				<option <?= ($selected == "nomeParte") ? "selected" : "" ?> value="nomeParte">Nome da Parte</option>
+				<option <?= ($selected == "nomeCliente") ? "selected" : "" ?> value="nomeCliente">Nome do Cliente/Matr&iacute;cula</option>
+			</select></label>
+		</td>
+		<td width="40%">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="7" nowrap="nowrap" align="right">
+			<label class="cinza_11">Par&acirc;metro de busca:
+				<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width: 248px">
+			</label>
+		</td>
+		<td>&nbsp;</td>
+	</tr>			
+	<tr>
+		<td colspan="7" nowrap="nowrap" align="right">
+			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
+		</td>
+	</tr>
+	<tr><td colspan="8">&nbsp;</td></tr>
+</table>
+</form>
+
+<?php 
+
+switch ($this->pesquisaPor) {
+	case 'numeroProcesso':
+?>
+
+<!-- Processos -->
+<!-- Mostra o numero de registros encontrados -->
+<table border="0" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmprocessos > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmprocessos ?></strong> processos cadastrados</td></tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhuma processo foi encontrado!</td></tr>
+	<?php endif; ?>
+</table>
+
+<?php 
+	$json = 
+		"{'recordsReturned':" . $this->nmprocessos . ",
+		'totalRecords':" . $this->nmprocessos . ",
+		'startIndex':0,'sort':null,'dir':'asc','pageSize':504,'records':[";
+	
+	$i = 0; 
+	foreach($this->processos as $processo) {
+		$json.=
+			"{'id':'" . $processo->id . "',
+			'processo':'" . formataNumeroProcesso($processo->numero_processo) . "',
+			'dtdistribuicao':'" . ( empty($processo->data_distribuicao) ? "" : date ("d/m/Y", strtotime ($processo->data_distribuicao) ) ) . "',
+			'dtencerramento':'" . ( empty($processo->data_encerramento) ? "" : date ("d/m/Y", strtotime ($processo->data_encerramento) ) ) . "',
+			'autor':'" . addslashes($processo->findParentCliente()->nome) . "',
+			'natureza':'" . addslashes($processo->findParentNatureza()->nome) . "',
+			'vara':'" . addslashes($processo->findParentVara()->nome) . "',
+			'acao':
+			'<a href=\'http://esaj.tjsc.jus.br/cpo/pg/search.do?cbPesquisa=NUMPROC&dePesquisa=" . $processo->numero_processo . "&cdForo=23\' target=\'_blank\'><img src=\'/sajproj/images/visualizar.gif\' border=\'0\'></a>&nbsp;<a href=\"/sajproj/index/parte/idprocesso/" . $processo->id . "\"><img src=\"/sajproj/images/partes.png\" border=\"0\"></a>&nbsp;<a href=\"/sajproj/index/editar/id/" . $processo->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/sajproj/index/excluir/id/\' + " . $processo->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>'
+			}";
+		$i++;
+		// Insere virgula entre os registros
+		$json.= ( $i < $this->nmprocessos ) ? "," : "";		
+	}
+	$json.= "]}";
+
+?>
+
+
+<body class=" yui-skin-sam">
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="paginated"></div>
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function() {
+    YAHOO.example.ClientPagination = function() {
+		
+    	var myColumnDefs = [
+			{key:"processo", label:"Processo", sortable:true},
+			{key:"dtdistribuicao", label:"Distribuição", sortable:true},
+			{key:"dtencerramento", label:"Encerramento", sortable:true},
+			{key:"autor", label:"Autor", sortable:true},
+			{key:"natureza", label:"Natureza", sortable:true},
+			{key:"vara", label:"Vara", sortable:true},
+			{key:"acao", label:"Ação"}
+    	];
+
+    	var dados = <?= $json; ?>;
+
+        //var myDataSource = new YAHOO.util.DataSource("assets/php/json_proxy.php?");
+        var myDataSource = new YAHOO.util.DataSource(dados);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        myDataSource.responseSchema = {
+            resultsList: "records",
+            fields: ["processo", "dtdistribuicao", "dtencerramento", "autor", "natureza", "vara","acao"]
+        };
+
+        var oConfigs = {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 15
+                }),
+                sortedBy : {key:"autor", dir:"desc"},
+                initialRequest: "results=504"
+        };
+        var myDataTable = new YAHOO.widget.DataTable("paginated", myColumnDefs,
+                myDataSource, oConfigs);
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();
+});
+</script>
+
+<?php
+	break;
+	case 'nomeParte':
+?>
+
+<!-- Partes -->
+<table border="0" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmpartes > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmpartes ?></strong> partes cadastradas</td></tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhuma parte foi encontrada!</td></tr>
+	<?php endif; ?>
+</table>
+
+<?php 
+	$json = 
+		"{'recordsReturned':" . $this->nmpartes . ",
+		'totalRecords':" . $this->nmpartes . ",
+		'startIndex':0,'sort':null,'dir':'asc','pageSize':504,'records':[";
+	
+	$i = 0;		
+	foreach($this->partes as $parte) {
+		$json.=
+			"{'id':'" . $parte->id . "',
+			'processo':'" . formataNumeroProcesso($parte->findParentProcesso()->numero_processo) . "',
+			'parte':'" . addslashes($parte->nome_parte) . "',
+			'cliente':'" . addslashes($parte->findParentCliente()->nome) . "',
+			'matricula':'" . $parte->numero_matricula . "',
+			'cpf':'" . $parte->cpf . "',
+			'rg':'" . $parte->rg . "',
+			'natureza':'" . $parte->findParentProcesso()->findParentNatureza()->nome . "',
+			'acao':
+			'<a href=\'http://esaj.tjsc.jus.br/cpo/pg/search.do?cbPesquisa=NUMPROC&dePesquisa=" . $parte->findParentProcesso()->numero_processo . "&cdForo=23\' target=\'_blank\'><img src=\'/sajproj/images/visualizar.gif\' border=\'0\'></a>&nbsp;<a href=\"#\" onclick=\"javascript:alert(\'Banco: " . $parte->banco . " \\\\nAgencia: " . $parte->agencia . "\\\\nConta: " . $parte->conta . "      \')\"><img src=\"/sajproj/images/coins_add.png\" border=\"0\"></a>&nbsp;<a href=\"/sajproj/parte/editar/id/" . $parte->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/sajproj/parte/excluir/id/\' + " . $parte->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>'
+			}";
+		$i++;
+		/*
+		 '<form id=\"mod1\" name=\"mod1\" method=\"post\" onSubmit=\"redirectOutput(this)\" action=\"http://tjsc23.tj.sc.gov.br:8080/cpo/pg/search.do\"><input type=\"hidden\" name=\"baseIndice\" value=\"INDDS\"><input type=\"hidden\" name=\"cbPesquisa\" value=\"NUMPROC\"><input type=\"hidden\" name=\"cdForo\" value=\"23\"><input type=\"hidden\" name=\"dePesquisa\" value=\"" . $parte->findParentProcesso()->numero_processo . "\"><input type=\"hidden\" name=\"modeloCNJ\" value=\"\"><input value=\"Pesquisar\" id=\"Pesquisar\" type=\"submit\" ></form>
+		 */
+		// $cliente->findDependentRowset('Processo');
+		// Insere virgula entre os registros
+		$json.= ( $i < $this->nmpartes ) ? "," : "";		
+	}
+	$json.= "]}";
+
+?>
+
+
+<body class=" yui-skin-sam">
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="paginated"></div>
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function() {
+    YAHOO.example.ClientPagination = function() {
+
+    	var myColumnDefs = [
+			{key:"processo", label:"Processo", sortable:true},
+			{key:"parte", label:"Parte", sortable:true},
+			{key:"cliente", label:"Cliente", sortable:true},
+			{key:"matricula", label:"Matrícula", sortable:true},
+			{key:"cpf", label:"CPF", sortable:true},
+			{key:"rg", label:"RG", sortable:true},
+			{key:"natureza", label:"Natureza", sortable:true},
+			{key:"acao", label:"Ação"}
+    	];
+
+    	var dados = <?= $json; ?>;
+
+        //var myDataSource = new YAHOO.util.DataSource("assets/php/json_proxy.php?");
+        var myDataSource = new YAHOO.util.DataSource(dados);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        myDataSource.responseSchema = {
+            resultsList: "records",
+            fields: ["processo", "parte", "cliente", "matricula", "cpf", "rg", "natureza", "acao"]
+        };
+
+        var oConfigs = {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 15
+                }),
+                sortedBy : {key:"parte", dir:"desc"},
+                initialRequest: "results=504"
+        };
+        var myDataTable = new YAHOO.widget.DataTable("paginated", myColumnDefs,
+                myDataSource, oConfigs);
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();
+});
+</script>
+
+<?php 
+	break;
+	case 'nomeCliente':
+?>
+
+
+<!-- Clientes -->
+<!-- Mostra o numero de registros encontrados -->
+<table border="0" align="center">
+	<tr>
+		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
+	</tr>
+	<?php if ($this->nmclientes > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmclientes ?></strong> clientes cadastrados</td></tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhum cliente foi encontrado!</td></tr>
+	<?php endif; ?>
+</table>
+
+<?php 
+	$json = 
+		"{'recordsReturned':" . $this->nmclientes . ",
+		'totalRecords':" . $this->nmclientes . ",
+		'startIndex':0,'sort':null,'dir':'asc','pageSize':504,'records':[";
+	
+	$i = 0;
+	foreach($this->clientes as $cliente) {
+		$processo = $cliente->findDependentRowset('Processo');
+		
+		if( $processo[0]['numero_processo'] ) {
+			$acao = "<a href=\'http://esaj.tjsc.jus.br/cpo/pg/search.do?cbPesquisa=NUMPROC&dePesquisa=" . $processo[0]['numero_processo'] . "&cdForo=23\' target=\'_blank\'><img src=\'/sajproj/images/visualizar.gif\' border=\'0\'></a>";
+		} else {
+			$acao = 'Nenhum processo associado';
+		}
+		
+		
+		$json.=
+			"{'id':'" . $cliente->id . "',
+			'nome':'" . addslashes($cliente->nome) . "',
+			'cpf':'" . $cliente->cpf . "',
+			'cnpj':'" . $cliente->cnpj . "',
+			'endereco':'" . addslashes($cliente->endereco) . "',
+			'cidade':'" . addslashes($cliente->cidade) . "',
+			'estado':'" . $cliente->estado . "',
+			'telefone':'" . $cliente->telefone . "',
+			'email':'" . $cliente->email . "',
+			'acao':'" . $acao . "'}";
+		/*
+		'<form id=\"mod1\" name=\"mod1\" method=\"post\" onSubmit=\"redirectOutput(this)\" action=\"http://tjsc23.tj.sc.gov.br:8080/cpo/pg/search.do\"><input type=\"hidden\" name=\"baseIndice\" value=\"INDDS\"><input type=\"hidden\" name=\"cbPesquisa\" value=\"NUMPROC\"><input type=\"hidden\" name=\"cdForo\" value=\"23\"><input type=\"hidden\" name=\"dePesquisa\" value=\"" . $processo[0]['numero_processo'] . "\"><input type=\"hidden\" name=\"modeloCNJ\" value=\"\"><input value=\"Pesquisar\" id=\"Pesquisar\" type=\"submit\" ></form>&nbsp;<a href=\"/sajproj/index/parte/idprocesso/" . $processo[0]['id'] . "\"><img src=\"/sajproj/images/partes.png\" border=\"0\"></a>&nbsp;<a href=\"/sajproj/cliente/editar/id/" . $cliente->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"#\" onclick=\"javascript:confirmExclusao(\'/sajproj/cliente/excluir/id/\' + " . $cliente->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>'
+		*/
+		/*<a href="<?php echo "http://tjsc23.tj.sc.gov.br:8080/cpo/search.do?cbForo=23&cbPesquisa=NUMPROC&dePesquisa=" . $processo[0]['numero_processo'] . "&cdForo=23"; ?>" target="_blank">
+				<img src="/images/visualizar.gif" border="0"></a>
+			<a href="<?php echo "/index/parte/idprocesso/" . $processo[0]['id']?>">
+				<img src="/images/partes.png" border="0"></a>*/
+		$i++;
+		// Insere virgula entre os registros
+		$json.= ( $i < $this->nmclientes ) ? "," : "";		
+	}
+	$json.= "]}";
+
+?>
+
+
+<body class=" yui-skin-sam">
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="paginated"></div>
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function() {
+    YAHOO.example.ClientPagination = function() {
+    	var myColumnDefs = [
+			{key:"nome", label:"Nome", sortable:true},
+			{key:"cpf", label:"CPF", sortable:true},
+			{key:"cnpj", label:"CNPJ", sortable:true},
+			{key:"endereco", label:"Endereco", sortable:true},
+			{key:"cidade", label:"Cidade", sortable:true},
+			{key:"estado", label:"Estado", sortable:true},
+			{key:"telefone", label:"Telefone", sortable:true},
+			{key:"email", label:"Email", sortable:true},
+			{key:"acao", label:"Ação"}
+    	];
+
+    	var dados = <?= $json; ?>;
+
+        //var myDataSource = new YAHOO.util.DataSource("assets/php/json_proxy.php?");
+        var myDataSource = new YAHOO.util.DataSource(dados);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        myDataSource.responseSchema = {
+            resultsList: "records",
+            fields: ["nome","cpf","cnpj","endereco","cidade","estado","telefone","email","acao"]
+        };
+
+        var oConfigs = {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 15
+                }),
+                sortedBy : {key:"nome", dir:"desc"},
+                initialRequest: "results=504"
+        };
+        var myDataTable = new YAHOO.widget.DataTable("paginated", myColumnDefs,
+                myDataSource, oConfigs);
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();
+});
+</script>
+
+<?php 
+/*
+<table border="0" class="lista_processos">
+	<tr>
+		<td align="center" colspan="8" class="message"><?//= $this->bugsReportedByUser; ?></td>
+	</tr>
+	<?php if ($this->nmclientes > 0): ?>
+	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmclientes ?></strong> clientes cadastrados</td></tr>
+	<tr>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Nome</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">CPF</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">CNPJ</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Endere&ccedil;o</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Cidade</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Estado</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Telefone</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Email</td>
+		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">&nbsp;</td>
+	</tr>
+	<?php else: ?>
+	<tr><td align="center" colspan="8" class="message">Nenhum cliente foi encontrado!</td></tr>	
+	<?php endif; ?>
+	<?php $i = 0?>
+	<?php foreach($this->clientes as $cliente) : ?>
+	<?php $bgcolor = ($i % 2 == 0) ? "#eeeeee" : "" ?>
+	<tr background="#ded"> 
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?php echo $cliente->nome; ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>		
+			<?= $cliente->cpf; ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $cliente->cnpj; ?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $cliente->endereco;?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $cliente->cidade;?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?=$cliente->estado;?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $cliente->telefone;?></td>
+		<td nowrap="nowrap" class="cinza_11" bgcolor=<?=$bgcolor?>>
+			<?= $cliente->email;?></td>
+		<td nowrap="nowrap" bgcolor=<?=$bgcolor?>>
+		<?php $processo = $cliente->findDependentRowset('Processo'); ?>
+			<a href="<?php echo "http://tjsc23.tj.sc.gov.br:8080/cpo/search.do?cbForo=23&cbPesquisa=NUMPROC&dePesquisa=" . $processo[0]['numero_processo'] . "&cdForo=23"; ?>" target="_blank">
+				<img src="/images/visualizar.gif" border="0"></a>
+			<a href="<?php echo "/index/parte/idprocesso/" . $processo[0]['id']?>">
+				<img src="/images/partes.png" border="0"></a>
+			<a href="<?= "/cliente/editar/id/" . $cliente->id?>">
+				<img src="/images/editar.gif" border="0"></a>
+			<a href="#" onclick="javascript:confirmExclusao('/cliente/excluir/id/' + <?=$cliente->id?>)">
+				<img src="/images/excluir.gif" border="0"></a>
+				
+		</td>
+	</tr>
+	<?php $i++; ?>
+	<?php endforeach; ?>
+
+</table>
+*/
+?>
+
+<?php 
+	break;
+	default:
+?>
+
+<div id="bbasic" align="center"></div>
+
+<script type="text/javascript">
+
+YAHOO.example.Data = {
+    bookorders: [
+					{tipo:"Processos Cadastrados", acao:"<?= $this->nmprocessos; ?>"},
+					{tipo:"Clientes", acao:"<?= $this->nmclientes; ?>"},
+					{tipo:"Partes", acao:"<?= $this->nmpartes; ?>"},
+					{tipo:"Naturezas", acao:"<?= $this->nmnaturezas; ?>"},
+					{tipo:"Comarcas", acao:"<?= $this->nmcomarcas; ?>"},
+					{tipo:"Varas", acao:"<?= $this->nmvaras; ?>"},
+		    ]
+}
+
+YAHOO.example.Basic = function() {
+	var myColumnDefs = [
+		{key:"tipo", label:"Segmento", sortable:true, resizeable:true},
+		{key:"acao", label:"&nbsp;", sortable:true, resizeable:true}
+	];
+
+	var myDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.bookorders);
+		myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+		myDataSource.responseSchema = {
+			fields: ["tipo","acao"]
+		};
+
+	var myDataTable = new YAHOO.widget.DataTable("bbasic",
+		myColumnDefs, myDataSource, {caption:"Sajproj em Números"});
+
+	return {
+		oDS: myDataSource,
+		oDT: myDataTable
+	};
+}();
+
+</script>
+
+
+<?php
+// Fim do switch
+}
+?>
+
+<?php 
+
+function formataNumeroProcesso($nmProcesso) {
+	// 023.95.052005-1
+	// 239.50.520051-1
+	// 023..9.5.0520-0 
+	//substr('abcdef', 0, 4);  // abcd
+	//echo $nmProcesso . "=";
+	$nmProcesso = str_pad($nmProcesso, 12, "0", STR_PAD_LEFT);
+	
+	// 023.95.052005-1
+	$parte1 = substr($nmProcesso, 0, 3);
+	$parte2 = substr($nmProcesso, 3, 2);
+	$parte3 = substr($nmProcesso, 5, 6);
+	$parte4 = substr($nmProcesso, 11, 1);
+	return $parte1 . "." . $parte2 . "." . $parte3 . "-" . $parte4;
+}
+
+?>

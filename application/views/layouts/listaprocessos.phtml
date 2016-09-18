@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title><?php echo $this->escape($this->title); ?></title>
+
+<script type="text/javascript" src="/sajproj/script/drop_down.js"></script>
+<script type="text/javascript" src="/sajproj/script/confirmacao.js"></script>
+<script type="text/javascript" src="/sajproj/script/calendar.js"></script>
+<script type="text/javascript" src="/sajproj/script/validaCPF.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/button/assets/skins/sam/button.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/container/assets/skins/sam/container.css" />
+<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/calendar/assets/skins/sam/calendar.css" />
+<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+
+<script type="text/javascript" src="/sajproj/script/yui/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/button/button-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/container/container-min.js"></script>
+<script type="text/javascript" src="/sajproj/script/yui/calendar/calendar-min.js"></script>
+
+<!-- JQuery -->
+<link type="text/css" href="/sajproj/script/jquery/themes/base/ui.all.css" rel="stylesheet" />
+
+<script type="text/javascript" src="/sajproj/script/jquery/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/sajproj/script/jquery/ui/ui.core.js"></script>
+<script type="text/javascript" src="/sajproj/script/jquery/ui/ui.datepicker.js"></script>
+<script type="text/javascript" src="/sajproj/script/jquery/jquery.maskedinput-1.2.2.js"></script>
+<!-- End JQuery -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/sajproj/style/style.css">
+
+</head>
+<body>
+
+<div id="tudo">
+	<div id="conteudo">
+
+		<div id="topo">
+			<?=$this->render('header.phtml'); ?>
+		</div>
+
+		<div id="auxiliar">
+			<?=$this->render('meumenu.phtml'); ?>
+		</div> <!-- Fim da div#auxiliar -->
+
+		<div id="leftmenu">
+			<?=$this->render('leftmenu.phtml'); ?>
+		</div>
+
+		<div id="rightmenu">
+			<!--<br />
+			<br />
+			<br />
+			<a href="#">
+				<img  src="/images/seta.png" title="Links Uteis" alt="Biblioteca" align="absmiddle"
+					border="0" width="33px" height="33px">
+			</a>-->
+			</div>
+
+		<div id="principal">
+			<?= $this->layout()->content ?>
+		</div> <!-- Fim da div#principal -->
+
+		<div class="clear"></div>
+
+	</div> <!-- Fim da div#conteudo -->
+
+	<div id="rodape">
+		<?=$this->render('footer.phtml'); ?>
+	</div>
+</div><!-- Fim da div#tudo -->
+
+</body>
+</html>

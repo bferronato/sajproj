@@ -1,0 +1,28 @@
+<div id="form_login">
+
+<?php if(!empty($this->message)) :?>
+<div id="message" class="message">
+	<?php echo $this->escape($this->message);?>
+</div>
+<?php endif; ?>
+
+<form action="<?php echo $this->baseUrl ?>/sajproj/auth/login" method="post">
+
+<table border="0">
+	<tr>
+		<td><label for="username" class="cinza_11">Usu&aacute;rio</label></td>
+		<td><input type="text" name="login" value="" class="input2"/></td>
+	</tr>
+	<tr>
+		<td><label for="password" class="cinza_11">Senha</label></td>
+		<td><input type="password" name="senha" value="" class="input2"/></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><input type="submit" name="Entrar" value="Entrar" class="button" /></td>
+	</tr>
+</table>
+
+</form>
+
+</div>
