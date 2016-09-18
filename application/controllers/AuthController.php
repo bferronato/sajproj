@@ -48,7 +48,7 @@ class AuthController extends Zend_Controller_Action {
 				} catch(Exception $e) {
 					phpinfo();
 					echo $e->getMessage();
-					die
+					die;
 				}
 				echo __LINE__;
 				echo "334565443";
