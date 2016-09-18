@@ -1,8 +1,5 @@
 <?php
 
-die("Works!!");
-
-
 // Error Reporting
 error_reporting(E_ALL|E_STRICT);
 ini_set('display_errors', 'on');
@@ -19,13 +16,12 @@ date_default_timezone_set('America/Sao_Paulo');
 
 set_include_path('.'
 .PATH_SEPARATOR.'./library'
-.PATH_SEPARATOR.'./application/models/' //facilitar depois ao loadar as nossos modelos
+.PATH_SEPARATOR.'./application/models/'
 .PATH_SEPARATOR.'./application/'
 .PATH_SEPARATOR.get_include_path());
 
 //Zend Framework Includes
 require_once "Zend/Loader.php";
-//die('dd2234');
 
 Zend_Loader::loadClass('Zend_Db'); 
 Zend_Loader::loadClass('Zend_Db_Table');
@@ -57,8 +53,6 @@ Zend_Registry::set('get', new Zend_Filter_Input(NULL, NULL, $_GET));
 //echo $layout->render();
 //$layout->setLayout('foobaz');
 Zend_Layout::startMvc('./application/views/layouts');
-
-//Zend_Layout::startMvc();
 
 
 // load configuration
