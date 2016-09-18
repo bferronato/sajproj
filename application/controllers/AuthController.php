@@ -26,8 +26,7 @@ class AuthController extends Zend_Controller_Action {
 			} else {
 				// configura o adapter Zend_Auth para uma tabela do BD
 				Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
-				echo "okokppp";
-				die("okok");
+				
 				$db = Zend_Registry::get('db');
 				$authAdapter = new Zend_Auth_Adapter_DbTable($db);
 				$authAdapter->setTableName('tb_admin');
