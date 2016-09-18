@@ -43,10 +43,11 @@ class AuthController extends Zend_Controller_Action {
 				
 				echo __LINE__;
 
-	echo "33455443";
-				die("okok");			
+				
 				$result = $auth->authenticate($authAdapter);
 				echo __LINE__;
+				echo "334565443";
+				die("okok");
 
 				if ($result->isValid()) {
 					// success: store database row to auth's storage
