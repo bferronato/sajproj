@@ -20,13 +20,14 @@ class AuthController extends Zend_Controller_Action {
 			$f = new Zend_Filter_StripTags();
 			$username = $f->filter($this->_request->getPost('login'));
 			$password = $f->filter($this->_request->getPost('senha'));
-			echo "okokppp";
-			die("okok");
+			
 			if (empty($username)) {
 				$this->view->message = 'Por favor informe o usuario.';
 			} else {
 				// configura o adapter Zend_Auth para uma tabela do BD
 				Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
+				echo "okokppp";
+				die("okok");
 				$db = Zend_Registry::get('db');
 				$authAdapter = new Zend_Auth_Adapter_DbTable($db);
 				$authAdapter->setTableName('tb_admin');
