@@ -28,6 +28,8 @@ class AuthController extends Zend_Controller_Action {
 				Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 				
 				$db = Zend_Registry::get('db');
+				echo "333";
+				die("okok");
 				$authAdapter = new Zend_Auth_Adapter_DbTable($db);
 				$authAdapter->setTableName('tb_admin');
 				$authAdapter->setIdentityColumn('login');
