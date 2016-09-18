@@ -1,0 +1,21 @@
+Inserir situacao do processo
+pago ()sim ()nao
+
+Valor a receber ou recebido
+
+Data recebido
+
+Data calculo
+
+Procedente/Improcedente
+
+Dados da parte junto com o nome(Uma forma
+que possa clicar no nome e aparecer todos os dados)
+
+Telefone Interligado
+
+Email Interligado
+
+Dentro do cadastro = local de trabalho e matricula(unica)
+
+Retirar CNPJ
