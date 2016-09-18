@@ -37,14 +37,14 @@ class AuthController extends Zend_Controller_Action {
 				// Seta as credenciais para a autenticacao
 				$authAdapter->setIdentity($username);
 				$authAdapter->setCredential($password);
-echo "334443";
-				die("okok");
+
 				// Faca a autenticacao
 				$auth = Zend_Auth::getInstance();
 				
 				echo __LINE__;
 
-				
+	echo "33455443";
+				die("okok");			
 				$result = $auth->authenticate($authAdapter);
 				echo __LINE__;
 
