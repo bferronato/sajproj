@@ -1,1 +1,0 @@
-Este é o meu arquivo index, editado na Google Cloud Platform
