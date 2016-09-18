@@ -57,7 +57,7 @@ Zend_Layout::startMvc('./application/views/layouts');
 
 // load configuration
 //$config = new Zend_Config_Ini('./application/configs/config.ini', 'producao');
-//$registry = Zend_Registry::getInstance();
+$registry = Zend_Registry::getInstance();
 //$registry->set('config', $config);
 
 // setup database
