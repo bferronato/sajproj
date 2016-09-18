@@ -19,6 +19,7 @@ class AuthController extends Zend_Controller_Action {
 			$f = new Zend_Filter_StripTags();
 			$username = $f->filter($this->_request->getPost('login'));
 			$password = $f->filter($this->_request->getPost('senha'));
+			die(__LINE__);
 			if (empty($username)) {
 				$this->view->message = 'Por favor informe o usuario.';
 			} else {
