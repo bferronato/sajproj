@@ -37,14 +37,18 @@ class AuthController extends Zend_Controller_Action {
 				// Faca a autenticacao
 				$auth = Zend_Auth::getInstance();
 				
-				
+				echo __LINE__;
+
 				
 				$result = $auth->authenticate($authAdapter);
-				
+				echo __LINE__;
+
 				if ($result->isValid()) {
 					// success: store database row to auth's storage
 					// system. (Not the password though!)
-					
+					echo __LINE__;
+
+					die;
 					// Seta o timeout da sessao para 1800 segundos
 					$authNamespace = new Zend_Session_Namespace('auth');
 		            		// timeout is 20 minutes (1200 seconds)
