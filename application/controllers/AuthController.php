@@ -37,6 +37,8 @@ class AuthController extends Zend_Controller_Action {
 				// Faca a autenticacao
 				$auth = Zend_Auth::getInstance();
 				
+				die("okok");
+				
 				$result = $auth->authenticate($authAdapter);
 				if ($result->isValid()) {
 					// success: store database row to auth's storage
