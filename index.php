@@ -1,5 +1,8 @@
 <?php
 
+die("Works!!");
+
+
 // Error Reporting
 error_reporting(E_ALL|E_STRICT);
 ini_set('display_errors', 'on');
@@ -71,7 +74,7 @@ Zend_Registry::set('db', $db);
 // Instanciando o Front Controller
 $front = Zend_Controller_Front::getInstance();
 
-// Criando parâmetro de configuração
+// Criando parÃ¢metro de configuraÃ§Ã£o
 Zend_Loader::loadClass("Zend_Config_Ini");
 //$GLOBALS["config"] = new Zend_Config_Ini("configs/config.ini", "config");
 //$GLOBALS["uploads"] = new Zend_Config_Ini("configs/config.ini", "uploads");
