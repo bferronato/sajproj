@@ -1,0 +1,42 @@
+ul {
+	margin: 0;
+	padding: 0;
+	padding-left: 51px;
+	width: 150px;
+	list-style: circle;
+	list-style-position: inherit;
+	list-style-type: inherit;
+	}
+ul li {
+	position: relative;
+	}
+li ul {
+	position: absolute;
+	left: 149px;
+	top: 10px;
+	top: 0;
+	display: none;
+	}
+ul li a {
+	display: block;
+	text-decoration: none;
+	color: #777;
+	background: #fff;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	}
+/* Fix IE. Hide from IE Mac \*/
+* html ul li { float: left; }
+* html ul li a { height: 1%; }
+/* End */
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: square;
+	width: 150px;
+	border-bottom: 1px solid #ccc;
+	}
+
+li:hover ul, li.over ul { 
+	display: block; }
