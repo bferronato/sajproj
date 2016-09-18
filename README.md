@@ -1,4 +1,4 @@
 # Sajproj
-Sistema legado.
+Sistema legado.\n
 Realizada migração para o github.
 Utilizado para controle de clientes.
