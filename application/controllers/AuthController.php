@@ -45,7 +45,7 @@ class AuthController extends Zend_Controller_Action {
 
 				try {
 					$result = $auth->authenticate($authAdapter);
-				catch(Exception $e) {
+				} catch(Exception $e) {
 					phpinfo();
 					echo $e->getMessage();
 					die
