@@ -33,12 +33,12 @@ class AuthController extends Zend_Controller_Action {
 				$authAdapter->setTableName('tb_admin');
 				$authAdapter->setIdentityColumn('login');
 				$authAdapter->setCredentialColumn('senha');
-echo "333";
-				die("okok");
+
 				// Seta as credenciais para a autenticacao
 				$authAdapter->setIdentity($username);
 				$authAdapter->setCredential($password);
-
+echo "334443";
+				die("okok");
 				// Faca a autenticacao
 				$auth = Zend_Auth::getInstance();
 				
