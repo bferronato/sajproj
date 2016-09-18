@@ -43,8 +43,13 @@ class AuthController extends Zend_Controller_Action {
 				
 				echo __LINE__;
 
-				
-				$result = $auth->authenticate($authAdapter);
+				try {
+					$result = $auth->authenticate($authAdapter);
+				catch(Exception $e) {
+					phpinfo();
+					echo $e->getMessage();
+					die
+				}
 				echo __LINE__;
 				echo "334565443";
 				die("okok");
