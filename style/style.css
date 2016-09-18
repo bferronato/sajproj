@@ -7,7 +7,7 @@ body {
 	background:#DDDDDD;
 	color:#666;
 	/*background:#fff url(/sajproj/images/backgrounds/simbolosj/imgAtuacaoHome.jpg);*/
-	background:#DDDDDDD;
+	background:#DDDDDD;
 	color:black;
 	font:75%/1.4 Verdana, Arial, Helvetica, sans-serif;
 	text-align:center;
@@ -189,7 +189,7 @@ h4 {font-size:16px;}
 	text-decoration: none;
 	color: maroon;
 }
-.link ove:HOVER{
+.link:hover {
 	color: red;
 }
 
