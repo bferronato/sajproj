@@ -1,11 +1,11 @@
 <br />
-<form id="processos" name="processos" action="/sajproj/cliente/visualizar" method="post">
+<form id="processos" name="processos" action="/cliente/visualizar" method="post">
 
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
-<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+<link rel="stylesheet" type="text/css" href="/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/script/yui/connection/connection-min.js"></script>
 
 
 
@@ -60,7 +60,7 @@
 		$json.=
 			"{'id':'" . $cliente->id . "',
 			'acao':
-			'<a href=\"javascript:void(0);\" onclick=\"javascript:confirmExclusao(\'/sajproj/cliente/excluir/id/\' + " . $cliente->id . ")\"><img src=\"/sajproj/images/excluir.gif\" border=\"0\"></a>&nbsp;<a href=\"/sajproj/cliente/editar/id/" . $cliente->id . "\"><img src=\"/sajproj/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"javascript:void(0);\" onclick=\"javascript:alert(\'" . $this->detalhes[$key] . "\')\"><img src=\"/sajproj/images/visualizar.gif\" title=\"Detalhes\" border=\"0\"></a>',
+			'<a href=\"javascript:void(0);\" onclick=\"javascript:confirmExclusao(\'/cliente/excluir/id/\' + " . $cliente->id . ")\"><img src=\"/images/excluir.gif\" border=\"0\"></a>&nbsp;<a href=\"/cliente/editar/id/" . $cliente->id . "\"><img src=\"/images/editar.gif\" border=\"0\"></a>&nbsp;<a href=\"javascript:void(0);\" onclick=\"javascript:alert(\'" . $this->detalhes[$key] . "\')\"><img src=\"/images/visualizar.gif\" title=\"Detalhes\" border=\"0\"></a>',
 			'nome':'" . addslashes($cliente->nome) . "',
 			'inventariante':'" . $cliente->inventariante . "',
 			'cpf':'" . $cliente->cpf . "',
@@ -128,10 +128,10 @@
 	});
 	</script>
 
-	<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
-	<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
-	<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
-	<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
-	<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+	<script type="text/javascript" src="/script/yui/json/json-min.js"></script>
+	<script type="text/javascript" src="/script/yui/element/element-beta-min.js"></script>
+	<script type="text/javascript" src="/script/yui/paginator/paginator-min.js"></script>
+	<script type="text/javascript" src="/script/yui/datasource/datasource-min.js"></script>
+	<script type="text/javascript" src="/script/yui/datatable/datatable-min.js"></script>
 
 </form>
