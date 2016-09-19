@@ -7,8 +7,8 @@ class AuthController extends Zend_Controller_Action {
 		//$this->view->baseUrl = $this->_request->getBaseUrl();
 	}
 
-    function indexAction() {
-        $this->_redirect('/busca/buscar');
+    	function indexAction() {
+        	$this->_redirect('/busca/buscar');
 	}
 
 	function loginAction() {
@@ -45,15 +45,8 @@ class AuthController extends Zend_Controller_Action {
 				try {
 					$result = $auth->authenticate($authAdapter);
 				} catch(Exception $e) {
-					
 					echo $e->getMessage();
-					phpinfo();
-					
-					die;
 				}
-				echo __LINE__;
-				echo "334565443";
-				die("okok");
 
 				if ($result->isValid()) {
 					// success: store database row to auth's storage
