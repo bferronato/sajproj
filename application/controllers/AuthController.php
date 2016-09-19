@@ -41,13 +41,14 @@ class AuthController extends Zend_Controller_Action {
 				// Faca a autenticacao
 				$auth = Zend_Auth::getInstance();
 				
-				echo __LINE__;
 
 				try {
 					$result = $auth->authenticate($authAdapter);
 				} catch(Exception $e) {
-					phpinfo();
+					
 					echo $e->getMessage();
+					phpinfo();
+					
 					die;
 				}
 				echo __LINE__;
