@@ -1,17 +1,17 @@
 <br />
-<form id="processos" name="processos" action="/sajproj/busca/buscar" method="post">
+<form id="processos" name="processos" action="/busca/buscar" method="post">
 
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
-<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+<link rel="stylesheet" type="text/css" href="/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/script/yui/connection/connection-min.js"></script>
 
-<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+<script type="text/javascript" src="/script/yui/json/json-min.js"></script>
+<script type="text/javascript" src="/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/script/yui/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="/script/yui/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="/script/yui/datatable/datatable-min.js"></script>
 <script type="text/javascript">
 
 	function redirectOutput(myForm) {
@@ -131,12 +131,12 @@ YAHOO.util.Event.onDOMReady(function() {
 		
     	var myColumnDefs = [
 			{key:"processo", label:"Processo", sortable:true},
-			{key:"dtdistribuicao", label:"Distribuição", sortable:true},
+			{key:"dtdistribuicao", label:"DistribuiÃ§Ã£o", sortable:true},
 			{key:"dtencerramento", label:"Encerramento", sortable:true},
 			{key:"autor", label:"Autor", sortable:true},
 			{key:"natureza", label:"Natureza", sortable:true},
 			{key:"vara", label:"Vara", sortable:true},
-			{key:"acao", label:"Ação"}
+			{key:"acao", label:"AÃ§Ã£o"}
     	];
 
     	var dados = <?= $json; ?>;
@@ -231,11 +231,11 @@ YAHOO.util.Event.onDOMReady(function() {
 			{key:"processo", label:"Processo", sortable:true},
 			{key:"parte", label:"Parte", sortable:true},
 			{key:"cliente", label:"Cliente", sortable:true},
-			{key:"matricula", label:"Matrícula", sortable:true},
+			{key:"matricula", label:"MatrÃ­cula", sortable:true},
 			{key:"cpf", label:"CPF", sortable:true},
 			{key:"rg", label:"RG", sortable:true},
 			{key:"natureza", label:"Natureza", sortable:true},
-			{key:"acao", label:"Ação"}
+			{key:"acao", label:"AÃ§Ã£o"}
     	];
 
     	var dados = <?= $json; ?>;
@@ -347,7 +347,7 @@ YAHOO.util.Event.onDOMReady(function() {
 			{key:"estado", label:"Estado", sortable:true},
 			{key:"telefone", label:"Telefone", sortable:true},
 			{key:"email", label:"Email", sortable:true},
-			{key:"acao", label:"Ação"}
+			{key:"acao", label:"AÃ§Ã£o"}
     	];
 
     	var dados = <?= $json; ?>;
@@ -473,7 +473,7 @@ YAHOO.example.Basic = function() {
 		};
 
 	var myDataTable = new YAHOO.widget.DataTable("bbasic",
-		myColumnDefs, myDataSource, {caption:"Sajproj em Números"});
+		myColumnDefs, myDataSource, {caption:"Sajproj em NÃºmeros"});
 
 	return {
 		oDS: myDataSource,
