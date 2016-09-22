@@ -1,17 +1,17 @@
 <br />
-<form id="processos" name="processos" action="/sajproj/natureza/visualizar" method="post">
+<form id="processos" name="processos" action="/natureza/visualizar" method="post">
 
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/fonts/fonts-min.css" />
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/paginator/assets/skins/sam/paginator.css" />
-<link rel="stylesheet" type="text/css" href="/sajproj/script/yui/datatable/assets/skins/sam/datatable.css" />
-<script type="text/javascript" src="/sajproj/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/connection/connection-min.js"></script>
+<link rel="stylesheet" type="text/css" href="/script/yui/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/script/yui/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="/script/yui/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="/script/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/script/yui/connection/connection-min.js"></script>
 
-<script type="text/javascript" src="/sajproj/script/yui/json/json-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/element/element-beta-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/paginator/paginator-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/datasource/datasource-min.js"></script>
-<script type="text/javascript" src="/sajproj/script/yui/datatable/datatable-min.js"></script>
+<script type="text/javascript" src="/script/yui/json/json-min.js"></script>
+<script type="text/javascript" src="/script/yui/element/element-beta-min.js"></script>
+<script type="text/javascript" src="/script/yui/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="/script/yui/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="/script/yui/datatable/datatable-min.js"></script>
 
 
 <!--begin custom header content for this example-->
@@ -89,7 +89,7 @@ YAHOO.util.Event.onDOMReady(function() {
 
     	var myColumnDefs = [
 			{key:"nome", label:"Nome"},
-			{key:"acao", label:"Ação"}
+			{key:"acao", label:"AÃ§Ã£o"}
     	];
 
     	var dados = <?= $json; ?>;
@@ -119,53 +119,4 @@ YAHOO.util.Event.onDOMReady(function() {
 });
 </script>
 
-
-<?php /*
-<?php //echo time("22/12/2008");  
-		//echo date("d/m/Y", "1239884007");
-		//echo "|" . (string)$this->nmregistros; ?>
-<table border="0" width="100%">
-	<tr>
-		<td colspan="8" nowrap="nowrap">
-			<input type="text" id="parametrobusca" name="parametrobusca" value="" class="input" style="width:89%">
-			<input type="submit" id="buscar" name="buscar" value="Pesquisar" class="button" width="10%">
-		</td>
-	</tr>
-	<tr><td colspan="8">&nbsp;</td></tr>
-</table>
-<table border="0" class="lista_naturezas" align="center">
-	<tr>
-		<td align="center" colspan="8" class="message"><?= $this->message; ?></td>
-	</tr>
-	<?php if ($this->nmnaturezas > 0): ?>
-	<tr><td align="center" colspan="8">Foram encontrados <strong><?=$this->nmnaturezas ?></strong> naturezas cadastradas</td></tr>
-	<tr>
-		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">Nome</td>
-		<td nowrap="nowrap" class="brancob_11"  bgcolor="gray">&nbsp;</td>
-	</tr>
-	<?php else: ?>
-	<tr><td align="center" colspan="8" class="message">Nenhuma natureza foi encontrada!</td></tr>	
-	<?php endif; ?>
-	<?php $i = 0?>
-	<?php foreach($this->naturezas as $natureza) : ?>
-	<?php $bgcolor = ($i % 2 == 0) ? "#eeeeee" : "" ?>
-	<tr background="#ded"> 
-		<td nowrap="nowrap" class="cinza_11" bgcolor="<?=$bgcolor?>">
-			<?php echo $natureza->nome; ?>			
-		</td>
-		
-		<td nowrap="nowrap" bgcolor="<?=$bgcolor?>" width="50px">		
-			<a href="<?= "/natureza/editar/id/" . $natureza->id?>">
-				<img src="/images/editar.gif" border="0"></a>
-			<a href="#" onclick="javascript:confirmExclusao('/natureza/excluir/id/' + <?=$natureza->id?>)">
-				<img src="/images/excluir.gif" border="0"></a>
-		</td>
-	</tr>
-	<?php $i++; ?>
-	<?php endforeach; ?>
-
-</table>
-
-*/
-?>
 </form>
