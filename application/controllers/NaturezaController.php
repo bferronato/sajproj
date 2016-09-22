@@ -10,24 +10,24 @@ class NaturezaController extends Zend_Controller_Action {
 		
 		// Configura o timeout para expirar a sessao
 		$authNamespace = new Zend_Session_Namespace('auth');
-        // clear the identity of a user who has not accessed a controller for
-        // longer than a timeout period.
-        if (isset($authNamespace->timeout) && time() > $authNamespace->timeout) {
-            Zend_Auth::getInstance()->clearIdentity();
-        } else {
-            // User is still active - update the timeout time.
-            $authNamespace->timeout = time() + 1800;
-            // Store the request URI so that an authentication after a timeout
-            // can be directed back to the pre-timeout display.  The base URL needs to
-            // be stripped off of the request URI to function properly.
-            $authNamespace->requestUri = substr($this->_request->getRequestUri(),
-                strlen(Zend_Controller_Front::getInstance()->getBaseUrl()));
-        }
-        // If the user has no identity here, there has either been a time out or the user has
-        // not logged in yet.
-        if (!Zend_Auth::getInstance()->hasIdentity()) {
-            $this->_redirect('auth/login');
-        }
+	        // clear the identity of a user who has not accessed a controller for
+	        // longer than a timeout period.
+	        if (isset($authNamespace->timeout) && time() > $authNamespace->timeout) {
+	            Zend_Auth::getInstance()->clearIdentity();
+	        } else {
+	            // User is still active - update the timeout time.
+	            $authNamespace->timeout = time() + 1800;
+	            // Store the request URI so that an authentication after a timeout
+	            // can be directed back to the pre-timeout display.  The base URL needs to
+	            // be stripped off of the request URI to function properly.
+	            $authNamespace->requestUri = substr($this->_request->getRequestUri(),
+	                strlen(Zend_Controller_Front::getInstance()->getBaseUrl()));
+	        }
+	        // If the user has no identity here, there has either been a time out or the user has
+	        // not logged in yet.
+	        if (!Zend_Auth::getInstance()->hasIdentity()) {
+	            $this->_redirect('auth/login');
+	        }
 	}
 	
 	function init() {
@@ -86,7 +86,7 @@ class NaturezaController extends Zend_Controller_Action {
 			
 			$return = $natureza->update($dados, $where);
 			if ($return) {
-				$this->view->message = "Atualização realizada com sucesso";	
+				$this->view->message = "AtualizaÃ§Ã£o realizada com sucesso";	
 			} else {
 				$this->view->message = "Erro ao atualizar a natureza";
 			}			
@@ -133,9 +133,9 @@ class NaturezaController extends Zend_Controller_Action {
 				$return = false;
 			}
 			if ($return) {
-				$this->view->message = "Exclusão realizada com sucesso";	
+				$this->view->message = "ExclusÃ£o realizada com sucesso";	
 			} else {
-				$this->view->message = "Não foi possível excluir o registro selecionado.<br />";
+				$this->view->message = "NÃ£o foi possÃ­vel excluir o registro selecionado.<br />";
 				$this->view->message.= "O registro selecionado pode estar sendo utilizado por algum processo.";
 			}
 		}	
