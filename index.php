@@ -1,6 +1,6 @@
 <?php
 
-header('Location: sajprojv2.herokuapp.com');
+header('Location: https://sajprojv2.herokuapp.com');
 
 // Error Reporting
 error_reporting(E_ALL|E_STRICT);
