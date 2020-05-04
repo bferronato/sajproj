@@ -1,5 +1,7 @@
 <?php
 
+header('Location: sajprojv2.herokuapp.com');
+
 // Error Reporting
 error_reporting(E_ALL|E_STRICT);
 ini_set('display_errors', 'on');
